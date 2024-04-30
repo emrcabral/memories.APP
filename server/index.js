@@ -18,6 +18,8 @@ app.use('/posts', postRoutes);
 const CONNECTION_URL = process.env.CONNECTION_URL;
 const PORT = process.env.PORT;
 
-mongoose.connect(CONNECTION_URL).then(() => app.listen(PORT, () => console.log(`Server running on port ${PORT}`))).catch((error) => console.log(error.message));
+mongoose.connect(CONNECTION_URL)
+    .then(() => app.listen(PORT, () => console.log(`Server running on port ${PORT}`)))
+    .catch((error) => console.log(error.message));
 
 

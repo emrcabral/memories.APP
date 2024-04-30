@@ -19,7 +19,9 @@ const useStyles = makeStyles((theme) => ({
     margin: '10px 0',
   },
   buttonSubmit: {
-    marginBottom: '10px',
+    '&&': {
+      marginBottom: '10px',
+    }
   },
 }));
 
