@@ -4,6 +4,7 @@ import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { signin, signup } from '../../actions/auth';
 
 import Icon from './icon';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -59,14 +60,32 @@ const GoogleSignInButton = () => {
     );
 };
 
+const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' };
+
 const Auth = () => {
     const classes = useStyles();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [showPassword, setShowPassword] = useState(false);
     const [isSignup, setIsSignUp] = useState(false);
+    const [formData, setFormData] = useState(initialState);
 
     const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword);
-    const handleSubmit = () => { };
-    const handleChange = () => { };
+
+    const handleSubmit = (e) => { 
+        e.preventDefault();
+        
+        if(isSignup) {
+            dispatch(signup(formData, navigate));
+        } else {
+            dispatch(signin(formData, navigate));
+        }
+     };
+
+    const handleChange = (e) => { 
+        setFormData({ ...formData, [e.target.name]: e.target.value })
+    };
+
     const switchMode = () => {
         setIsSignUp((prevIsSignUp) => !prevIsSignUp);
         handleShowPassword(false);
