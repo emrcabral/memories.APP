@@ -20,12 +20,12 @@ const GoogleSignInButton = () => {
     const googleSuccess = async tokenResponse => {
         const userInfo = await axios
             .get('https://www.googleapis.com/oauth2/v3/userinfo', {
-              headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+                headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
             })
             .then(res => res.data);
         
         const result = userInfo;
-        const token = tokenResponse.access_token;
+        const token = userInfo.sub;
 
         try {
             dispatch({ type: 'AUTH', data: { result, token } });
@@ -44,17 +44,11 @@ const GoogleSignInButton = () => {
         onSuccess: googleSuccess,
         onError: googleFailure,
         clientId: "673026358049-h3psc7l3rlf595c3cr9nslkotglgfcan.apps.googleusercontent.com", 
+        scope: 'profile email openid',
     });
 
     return (
-        <Button
-            className={classes.googleButton}
-            color="primary"
-            fullWidth
-            onClick={() => login()}
-            startIcon={<Icon />}
-            variant="contained"
-        >
+        <Button className={classes.googleButton} color="primary" fullWidth onClick={() => login()} startIcon={<Icon />} variant="contained">
             Google Login
         </Button>
     );
