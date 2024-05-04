@@ -23,24 +23,31 @@ export default makeStyles((theme) => ({
   },
   toolbar: {
     display: 'flex',
-    justifyContent: 'flex-end',
-    width: '400px',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%', // Adjust width as needed
   },
   profile: {
     display: 'flex',
-    justifyContent: 'space-between',
-    width: '400px',
+    alignItems: 'center',
   },
   userName: {
-    display: 'flex',
-    alignItems: 'center',
+    marginRight: '10px',
+  },
+  logout: {
+    '&&': {
+      marginLeft: '10px', // Add margin between user name and logout button
+    }
   },
   brandContainer: {
     display: 'flex',
     alignItems: 'center',
   },
   purple: {
-    color: theme.palette.getContrastText(deepPurple[500]),
-    backgroundColor: deepPurple[500],
+    '&&': {
+      marginRight: '10px',
+      color: theme.palette.getContrastText(deepPurple[500]),
+      backgroundColor: deepPurple[500],
+    }
   },
 }));

@@ -13,6 +13,8 @@ const Post = ({ post, setCurrentId }) => {
     const classes = useStyles();
     const dispatch = useDispatch();
 
+    const user = JSON.parse(localStorage.getItem('profile'));
+
     return (
         <Card className={classes.card}>
             <CardMedia className={classes.media} image={post.selectedFile} title={post.title} />
@@ -32,15 +34,17 @@ const Post = ({ post, setCurrentId }) => {
             <CardContent>
                 <Typography color="textSecondary" gutterBottom>{post.message}</Typography>
             </CardContent>
-            <CardActions className={classes.cardActions}>
-                <Button size="small" color="primary" onClick={() => dispatch(likePost(post._id))}>
-                    <ThumbUpAltIcon fontSize="small" />
-                    &nbsp;{post.likes.length}
-                </Button>
-                <Button size="small" color="primary" onClick={() => dispatch(deletePost(post._id))}>
-                    <DeleteIcon fontSize="small" />
-                </Button>
-            </CardActions>
+            { user && (
+                <CardActions className={classes.cardActions}>
+                    <Button size="small" color="primary" onClick={() => dispatch(likePost(post._id))}>
+                        <ThumbUpAltIcon fontSize="small" />
+                        &nbsp;{post.likes.length}
+                    </Button>
+                    <Button size="small" color="primary" onClick={() => dispatch(deletePost(post._id))}>
+                        <DeleteIcon fontSize="small" />
+                    </Button>
+                </CardActions>
+            )}
         </Card>
     );
 }
