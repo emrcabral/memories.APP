@@ -33,7 +33,17 @@ export const updatePost = async (req, res) => {
 export const deletePost = async (req, res) => {
     const { id } = req.params;
 
-    if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("No post with that id.");
+    if (!req.userId) return res.json({ message: 'Unauthenticated user.' });
+
+    if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("No post with that ID.");
+
+    const post = await PostMessage.findById(id);
+
+    if (!post) return res.status(404).send('No post with that ID.');
+
+    if (post.creator !== req.userId) {
+        return res.status(403).json({ message: 'You are not authorized to delete this post.' });
+    }
 
     await PostMessage.findByIdAndDelete(id);
 
@@ -51,7 +61,7 @@ export const likePost = async (req, res) => {
 
     const index = post.likes.findIndex((id) => id === String(req.userId));
 
-    if(index == -1) {
+    if(index === -1) {
         post.likes.push(req.userId);
     } else {
         post.likes = post.likes.filter((id) => id !== String(req.userId));
