@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { AppBar, Avatar, Button, Toolbar, Typography } from '@mui/material';
+import { jwtDecode } from 'jwt-decode';
 import memories from '../../images/memories.png';
 import { useDispatch } from 'react-redux';
 
@@ -21,6 +22,20 @@ const Navbar = () => {
     };
 
     useEffect(() => {
+        const token = user?.token;
+
+        if(token) {
+            try {
+                const decodedToken = jwtDecode(token);
+    
+                if(decodedToken.exp * 1000 < new Date().getTime()) {
+                    logout();
+                }
+            } catch (error) {
+                console.log(error.message);
+            }
+        }
+
         setUser(JSON.parse(localStorage.getItem('profile')));
     }, [location]);
 
